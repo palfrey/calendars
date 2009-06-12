@@ -6339,6 +6339,9 @@ class calendarComponent {
           $proprows[$lastix] = substr( $proprows[$lastix], 0, strlen( $proprows[$lastix] ) - 2 );
           $line = substr( $line, 1 );
         }
+        if (' ' == substr( $line, 0, 1 )) {
+          $line = substr( $line, 1 );
+		}
         $proprows[$lastix] .= $line;
       }
     }
