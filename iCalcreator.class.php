@@ -1242,8 +1242,13 @@ class vcalendar {
       clearstatcache();
     }
             /* READ FILE */
-    if( FALSE === ( $rows = file( $filename )))
-      return FALSE;                   /* err 1 */
+    if( FALSE === ( $str = file_get_contents( $filename )))
+		return FALSE;                   /* err 1 */
+	return $this->parseString($str);
+  }
+
+	function parseString( $inputStr) {
+		$rows = preg_split("/[\n\r]/",$inputStr);
             /* identify BEGIN:VCALENDAR, MUST be first row */
     if( 'BEGIN:VCALENDAR' != strtoupper( trim( $rows[0] )))
       return FALSE;                   /* err 8 */
