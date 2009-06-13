@@ -1,4 +1,7 @@
 <?
+
+error_reporting(E_ERROR);
+
 require_once( 'iCalcreator.class.php' );
 require_once( 'tz.php' );
 $out = new vcalendar();
@@ -12,7 +15,7 @@ $key = $_GET["key"];
 $timezone = $_GET["timezone"];
 $fb_url = $_GET["fb_url"];
 
-$fb_url = "http://www.facebook.com/ical/u.php?uid=707610112&key=7d5c604e1c";
+#$fb_url = "http://www.facebook.com/ical/u.php?uid=707610112&key=7d5c604e1c";
 
 #$action = "generate";
 
@@ -21,30 +24,38 @@ if (!isset($timezone))
 
 if (isset($action) && $action == "generate")
 {
-	preg_match("/http:\/\/www.facebook.com\/ical\/u.php\?uid=(\d+)&key=([a-f\d]+)/", $fb_url, $matches);
-	count($matches) == 3 or die("Bad matches!\n");
-	$url = $_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']."?uid=".$matches[1]."&key=".$matches[2];
-	print "Link is $url<br />\n";
+	preg_match("/facebook.com\/ical\/u.php\?uid=(\d+)&key=([a-f\d]+)/", $fb_url, $matches);
+	if (count($matches) == 3)
+	{
+		$url = "http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."?uid=".$matches[1]."&key=".$matches[2]."&timezone=".$timezone;
+		print "Calendar URL is <a href=\"$url\">$url</a><br /><br />\n";
+	}
+	else
+		 print "Bad matches! '$fb_url' is not a valid Facebook events URL!<br />\n";
 }
 
-if (!isset($key) || !isset($uid) || isset($action))
+if (!isset($key) || !isset($uid))
 {
 	print "<form id=\"form\" action=\"{$_SERVER['PHP_SELF']}\">\n";
 	?>
 <input type="hidden" name="action" value="generate" />
-<select name="timezone" id="timezone">
+Timezone: <select name="timezone" id="timezone">
 <?
 	foreach ($_tz as $key => $value)
 	{
+		$nice = str_replace("_"," ", $key);
 		if ($key == $timezone)
-			print "<option selected value=\"$key\">$key</option>\n";
+			print "<option selected value=\"$key\">$nice</option>\n";
 		else
-			print "<option value=\"$key\">$key</option>\n";
+			print "<option value=\"$key\">$nice</option>\n";
 	}
 ?>
-</select>
+</select><br/>
+Facebook calendar export url (goto <a href="http://www.new.facebook.com/events.php">here</a>, click "Export events" and copy the URL):
 <?
-	print "<input type=\"text\" name=\"fb_url\" value=\"$fb_url\">\n";
+	
+	print "<input type=\"text\" name=\"fb_url\" value=\"$fb_url\"><br />\n";
+	print "<input type=\"submit\" name=\"blah\" value=\"Get calendar URL\">\n";
 	print "</form>\n";
 	exit;
 }
