@@ -1,2 +1,5 @@
 tz.php
 allzones.ics
+.*.swp
+*.ics
+*.rss
