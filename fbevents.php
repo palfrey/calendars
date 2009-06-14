@@ -60,9 +60,6 @@ Facebook calendar export url (goto <a href="http://www.new.facebook.com/events.p
 	exit;
 }
 
-#$uid = "707610112";
-#$key = "7d5c604e1c";
-
 $fname = "facebook-$uid-$key.ics";
 $age = filemtime($fname);
 if (!$age || time()-$age > 60*60)
