@@ -91,6 +91,8 @@ while( $vevent = $v->getComponent( 'vevent' )) {
 	$end['tz'] = $tzid;
 	$vevent->setProperty('DTEND',$end);
 
+	$vevent->setProperty('CLASS', 'PUBLIC'); // stop blanking some events
+
 	$out->addComponent($vevent);
 }
 
