@@ -25,7 +25,7 @@ require_once( 'tz.php' );
 $out = new vcalendar();
 $v = new vcalendar(); // create a new calendar instance
 $out->setXprop("X-WR-CALNAME","Facebook events");
-$out->setConfig( 'unique_id', 'tevp.net' ); // set Your unique id, required if property UID is missing
+$out->setConfig( 'unique_id', 'tevp.net-projects-calendars-fbevents' ); // set Your unique id, required if property UID is missing
 $out->setProperty( 'method', 'PUBLISH' ); // required of some calendar software
 
 $uid = $_GET["uid"];

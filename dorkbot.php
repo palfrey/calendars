@@ -28,7 +28,7 @@ $v->parseString($data);
 
 $out = new vcalendar();
 $out->setXprop("X-WR-CALNAME","Dorkbot London events");
-$out->setConfig( 'unique_id', 'tevp.net' ); // set Your unique id, required if property UID is missing
+$out->setConfig( 'unique_id', 'tevp.net-projects-calendars-dorkbot' ); // set Your unique id, required if property UID is missing
 $out->setProperty( 'method', 'PUBLISH' ); // required of some calendar software
 
 function get($url, $max_age = 3600)
