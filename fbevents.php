@@ -33,11 +33,6 @@ $key = $_GET["key"];
 $timezone = $_GET["timezone"];
 $fb_url = $_GET["fb_url"];
 
-#$uid="707610112";
-#$key="9b857cca655089425da6d912";
-
-#$action = "generate";
-
 if (!isset($timezone))
 	$timezone = "Europe/London";
 
