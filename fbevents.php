@@ -78,6 +78,9 @@ Facebook calendar export url (goto <a href="http://www.new.facebook.com/events.p
 	exit;
 }
 
+$self_age = filemtime($_SERVER['SCRIPT_FILENAME']);
+$self_age_fm = strftime("%Y%M%DT%H%M%SZ", $self_age);
+
 $fname = "facebook-$uid-$key.ics";
 $age = filemtime($fname);
 if (!$age || time()-$age > 60*60)
@@ -110,6 +113,14 @@ while( $vevent = $v->getComponent( 'vevent' )) {
 	$vevent->setProperty('DTEND',$end);
 
 	$vevent->setProperty('CLASS', 'PUBLIC'); // stop blanking some events
+
+	$stamp = $vevent->getProperty('DTSTAMP');
+	$stamp = mktime($stamp['hour'],$stamp['minute'],$stamp['second'],$stamp['month'],$stamp['day'],$stamp['year']);
+	if ($stamp < $self_age)
+	{
+		$vevent->setProperty('DTSTAMP', array("timestamp"=>$self_age));
+		$vevent->setProperty('LAST-MODIFIED', array("timestamp"=>$self_age));
+	}
 
 	$out->addComponent($vevent);
 }
