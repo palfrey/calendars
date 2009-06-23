@@ -78,6 +78,7 @@ while( $vevent = $v->getComponent( 'vevent' )) {
 		$vevent->setProperty('DTEND',$end);
 
 		$content = trim(substr(strstr($data, "</dl>"), 5));
+		$content .="\n$url\n";
 		#print $content."\n";
 		$vevent->setProperty('description',$content);
 	}
