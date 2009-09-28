@@ -33,7 +33,8 @@ $key = $_GET["key"];
 $timezone = $_GET["timezone"];
 $fb_url = $_GET["fb_url"];
 
-#$fb_url = "http://www.facebook.com/ical/u.php?uid=707610112&key=7d5c604e1c";
+#$uid="707610112";
+#$key="7d5c604e1c";
 
 #$action = "generate";
 
