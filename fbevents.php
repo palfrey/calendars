@@ -104,8 +104,20 @@ $tzid = $tz->getProperty("TZID");
 $out->addComponent($tz);
 
 while( $vevent = $v->getComponent( 'vevent' )) {
+	$url = $vevent->getProperty('URL');
+	preg_match("/eid%3D(\d+)/", $url, $matches);
+	if (count($matches) != 2) 
+	{
+		print_r($matches);
+		die("Wrong number of matches!");
+	}
+	$url = "http://www.facebook.com/event.php?eid=".$matches[1];
+	$vevent->setProperty("URL", $url);
+
 	$description = $vevent->getProperty( 'description' );
 	#$description = urlencode($description);
+	$description = substr($description,0,strrpos($description, "\\n"));
+	$description .= "\\n\\n$url";
 	$vevent->deleteProperty('description');
 	$vevent->setProperty('description',$description);
 	
