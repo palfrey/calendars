@@ -113,7 +113,7 @@ while( $vevent = $v->getComponent( 'vevent' )) {
 	$end['tz'] = $tzid;
 	$vevent->setProperty('DTEND',$end);
 
-	$vevent->setProperty('CLASS', 'PUBLIC'); // stop blanking some events
+	$vevent->deleteProperty('CLASS'); // stop blanking some events
 
 	$stamp = $vevent->getProperty('DTSTAMP');
 	$stamp = mktime($stamp['hour'],$stamp['minute'],$stamp['second'],$stamp['month'],$stamp['day'],$stamp['year']);
