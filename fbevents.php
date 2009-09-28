@@ -34,7 +34,7 @@ $timezone = $_GET["timezone"];
 $fb_url = $_GET["fb_url"];
 
 #$uid="707610112";
-#$key="7d5c604e1c";
+#$key="9b857cca655089425da6d912";
 
 #$action = "generate";
 
@@ -43,14 +43,17 @@ if (!isset($timezone))
 
 if (isset($action) && $action == "generate")
 {
-	preg_match("/facebook.com\/ical\/u.php\?uid=(\d+)&key=([a-f\d]+)/", $fb_url, $matches);
+	preg_match("/fbcalendar.com\/cal\/(\d+)\/([\da-z]+)-\d+\/events\/ics/", $fb_url, $matches);
 	if (count($matches) == 3)
 	{
 		$url = "http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."?uid=".$matches[1]."&key=".$matches[2]."&timezone=".$timezone;
 		print "Calendar URL is <a href=\"$url\">$url</a><br /><br />\n";
 	}
 	else
-		 print "Bad matches! '$fb_url' is not a valid Facebook events URL!<br />\n";
+	{
+		print_r($matches);
+		print "Bad matches! '$fb_url' is not a valid Facebook events URL!<br />\n";
+	}
 }
 
 if (!isset($key) || !isset($uid))
@@ -70,7 +73,7 @@ Timezone: <select name="timezone" id="timezone">
 	}
 ?>
 </select><br/>
-Facebook calendar export url (goto <a href="http://www.new.facebook.com/events.php">here</a>, click "Export events" and copy the URL):
+FBCal export url (goto <a href="http://www.fbcal.com/create.php">here</a>, and copy url from the "here" of "Or just download a copy here"):
 <?
 	
 	print "<input type=\"text\" name=\"fb_url\" value=\"$fb_url\"><br />\n";
@@ -86,7 +89,8 @@ $fname = "facebook-$uid-$key.ics";
 $age = filemtime($fname);
 if (!$age || time()-$age > 60*60)
 {
-	$data = file_get_contents("http://www.facebook.com/ical/u.php?uid=$uid&key=$key");
+	#http://www.fbcalendar.com/cal/707610112/9b857cca655089425da6d912-707610112/events/ics/attending,unsure,not_replied/
+	$data = file_get_contents("http://www.fbcalendar.com/cal/$uid/$key-$uid/events/ics/attending,unsure,not_replied/");
 	if ($data == "")
 		die("Can't read from Facebook!\n");
 	file_put_contents($fname, $data);
